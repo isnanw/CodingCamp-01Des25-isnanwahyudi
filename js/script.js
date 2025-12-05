@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Theme handling moved to `js/theme.js`. This file keeps reveal, modal and typing logic.
-
   // Simple staggered reveal for elements with [data-animate]
   const items = Array.from(document.querySelectorAll('[data-animate]'));
   items.forEach((el, i) => {
@@ -38,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.classList.add('flex');
     modal.setAttribute('aria-hidden', 'false');
     // clear input each time (do not persist visitor name)
-    try { if (input) input.value = ''; } catch (e) {}
+    try { if (input) input.value = ''; } catch (e) { }
     setTimeout(() => input?.focus(), 50);
   }
 
@@ -104,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         await wait(pause);
         if (controller.stopped) return;
-        // delete but keep at least 1 character to avoid an empty display between cycles
         for (let i = text.length; i > 1; i--) {
           el.textContent = text.slice(0, i - 1);
           await wait(deleteSpeed);
@@ -137,8 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
     closeModal();
   });
   cancelBtn?.addEventListener('click', () => { setVisitor('Guest'); closeModal(); });
-
-  // header button removed; modal can still be opened automatically or by other triggers
 
   // close modal when clicking backdrop
   document.querySelectorAll('[data-modal-backdrop]').forEach(back => {
@@ -281,11 +276,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Smooth scroll for internal anchor links with sticky header offset
-  (function(){
+  (function () {
     const header = document.querySelector('header');
     const getHeaderHeight = () => (header ? header.getBoundingClientRect().height : 0);
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e){
+      anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
         if (!href || href === '#') return;
         const target = document.querySelector(href);
@@ -295,13 +290,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const top = Math.round(target.getBoundingClientRect().top + window.pageYOffset - offset);
         window.scrollTo({ top, behavior: 'smooth' });
         // focus target for accessibility after scroll finishes
-        setTimeout(() => { try { target.focus({preventScroll:true}); } catch(e){} }, 600);
+        setTimeout(() => { try { target.focus({ preventScroll: true }); } catch (e) { } }, 600);
       });
     });
   })();
 
   // Project lightbox/modal preview
-  const lightbox = (function(){
+  const lightbox = (function () {
     const lb = document.createElement('div');
     lb.id = 'project-lightbox';
     lb.innerHTML = `
@@ -345,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = -1;
     let items = [];
 
-    function open(i){
+    function open(i) {
       if (!items[i]) return;
       currentIndex = i;
       const it = items[i];
@@ -382,21 +377,21 @@ document.addEventListener('DOMContentLoaded', () => {
       closeBtn.focus();
     }
     function codeMissingHandler(e) { e && e.preventDefault(); showToast('Code not published yet.'); }
-    function close(){ lb.classList.remove('open'); }
-    function next(){ open((currentIndex + 1) % items.length); }
-    function prev(){ open((currentIndex - 1 + items.length) % items.length); }
+    function close() { lb.classList.remove('open'); }
+    function next() { open((currentIndex + 1) % items.length); }
+    function prev() { open((currentIndex - 1 + items.length) % items.length); }
 
     // close handlers
     lb.querySelectorAll('[data-lb-backdrop]').forEach(b => b.addEventListener('click', close));
     closeBtn.addEventListener('click', close);
-    document.addEventListener('keydown', (e)=>{
+    document.addEventListener('keydown', (e) => {
       if (!lb.classList.contains('open')) return;
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowRight') next();
       if (e.key === 'ArrowLeft') prev();
     });
 
-    return { attach(list){ items = list; }, open, close, next, prev };
+    return { attach(list) { items = list; }, open, close, next, prev };
   })();
 
   // Gather project cards and wire click handlers
@@ -404,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const projects = projectEls.map((el, idx) => {
     const img = el.querySelector('img');
     return {
-      title: el.querySelector('h3')?.textContent?.trim() || `Project ${idx+1}`,
+      title: el.querySelector('h3')?.textContent?.trim() || `Project ${idx + 1}`,
       description: el.querySelector('p')?.textContent?.trim() || '',
       image: img?.getAttribute('src') || '',
       demo: el.querySelector('a.text-sm.text-indigo-600')?.getAttribute('href') || '#',
@@ -420,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
       lightbox.open(i);
     });
     // keyboard accessible
-    el.setAttribute('tabindex','0');
+    el.setAttribute('tabindex', '0');
     el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lightbox.open(i); } });
   });
 
