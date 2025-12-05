@@ -53,6 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // If name is empty or falsy, treat as Guest. Do not persist to localStorage.
     const display = name && name.trim() ? name.trim() : 'Guest';
     showGreeting(display);
+    // Auto-fill contact form name when visitor provides a name
+    try {
+      const contactNameInput = document.getElementById('contact-name');
+      if (contactNameInput) {
+        if (name && name.trim()) {
+          contactNameInput.value = name.trim();
+        }
+        // trigger input event to refresh any live preview
+        contactNameInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    } catch (e) { /* noop */ }
   }
 
   // Typing loop controller for hero name
@@ -93,8 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         await wait(pause);
         if (controller.stopped) return;
-        // delete
-        for (let i = text.length; i > 0; i--) {
+        // delete but keep at least 1 character to avoid an empty display between cycles
+        for (let i = text.length; i > 1; i--) {
           el.textContent = text.slice(0, i - 1);
           await wait(deleteSpeed);
           if (controller.stopped) return;
@@ -201,6 +212,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const codeLink = lb.querySelector('#lb-code');
     const closeBtn = lb.querySelector('.lb-close');
 
+    // toast element for contextual messages
+    const toast = document.createElement('div');
+    toast.className = 'site-toast';
+    document.body.appendChild(toast);
+    function showToast(msg, ms = 2500) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => { toast.classList.remove('show'); }, ms);
+    }
+
     let currentIndex = -1;
     let items = [];
 
@@ -214,10 +236,33 @@ document.addEventListener('DOMContentLoaded', () => {
       desc.textContent = it.description;
       demoLink.href = it.demo || '#';
       codeLink.href = it.code || '#';
+      // Demo link: if missing (#) show Coming soon state
+      if (!it.demo || it.demo === '#') {
+        demoLink.classList.add('disabled');
+        demoLink.setAttribute('aria-disabled', 'true');
+        demoLink.textContent = 'Coming soon';
+        demoLink.removeAttribute('target');
+      } else {
+        demoLink.classList.remove('disabled');
+        demoLink.removeAttribute('aria-disabled');
+        demoLink.textContent = 'Demo';
+        demoLink.setAttribute('target', '_blank');
+      }
+      // Code link: if missing (#) show unpublished when clicked
+      if (!it.code || it.code === '#') {
+        codeLink.classList.add('disabled');
+        codeLink.removeAttribute('href');
+        codeLink.addEventListener('click', codeMissingHandler);
+      } else {
+        codeLink.classList.remove('disabled');
+        codeLink.href = it.code;
+        codeLink.removeEventListener('click', codeMissingHandler);
+      }
       lb.classList.add('open');
       // focus for accessibility
       closeBtn.focus();
     }
+    function codeMissingHandler(e) { e && e.preventDefault(); showToast('Code not published yet.'); }
     function close(){ lb.classList.remove('open'); }
     function next(){ open((currentIndex + 1) % items.length); }
     function prev(){ open((currentIndex - 1 + items.length) % items.length); }
@@ -259,4 +304,120 @@ document.addEventListener('DOMContentLoaded', () => {
     el.setAttribute('tabindex','0');
     el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lightbox.open(i); } });
   });
+
+  /* Contact form: validation + live preview + reset */
+  (function () {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    const nameEl = document.getElementById('contact-name');
+    const dobEl = document.getElementById('contact-dob');
+    const messageEl = document.getElementById('contact-message');
+    const previewName = document.getElementById('preview-name');
+    const previewMeta = document.getElementById('preview-meta');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatDraft = document.getElementById('chat-draft');
+    const resetBtn = document.getElementById('contact-reset');
+
+    const toastEl = document.querySelector('.site-toast');
+    function showToast(msg, ms = 2200) {
+      if (!toastEl) return; toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastEl._t); toastEl._t = setTimeout(() => toastEl.classList.remove('show'), ms);
+    }
+
+    function validate() {
+      let ok = true;
+      // name
+      const name = nameEl.value.trim();
+      const errName = document.getElementById('error-name');
+      if (!name) { errName.classList.add('visible'); nameEl.setAttribute('aria-invalid', 'true'); ok = false; } else { errName.classList.remove('visible'); nameEl.removeAttribute('aria-invalid'); }
+      // dob
+      const dob = dobEl.value;
+      const errDob = document.getElementById('error-dob');
+      if (!dob) { errDob.classList.add('visible'); dobEl.setAttribute('aria-invalid', 'true'); ok = false; }
+      else {
+        const d = new Date(dob); const now = new Date();
+        if (d > now) { errDob.classList.add('visible'); dobEl.setAttribute('aria-invalid', 'true'); ok = false; }
+        else { errDob.classList.remove('visible'); dobEl.removeAttribute('aria-invalid'); }
+      }
+      // gender
+      const gender = form.querySelector('input[name="gender"]:checked');
+      const errGender = document.getElementById('error-gender');
+      if (!gender) { errGender.classList.add('visible'); ok = false; } else { errGender.classList.remove('visible'); }
+      // message
+      const msg = messageEl.value.trim();
+      const errMsg = document.getElementById('error-message');
+      if (!msg || msg.length < 10) { errMsg.classList.add('visible'); messageEl.setAttribute('aria-invalid', 'true'); ok = false; } else { errMsg.classList.remove('visible'); messageEl.removeAttribute('aria-invalid'); }
+      return ok;
+    }
+
+    // In-memory message store for the preview chat
+    const messages = [];
+
+    function formatTimestamp(d) {
+      try {
+        return d.toLocaleString();
+      } catch (e) { return d.toString(); }
+    }
+
+    function renderMessages() {
+      if (!chatMessages) return;
+      chatMessages.innerHTML = messages.map(m => {
+        const time = formatTimestamp(new Date(m.time));
+        return `\n          <div class="chat-bubble ${m.me ? 'me' : 'other'}">\n            <div class="body">${escapeHtml(m.text)}</div>\n            <span class="chat-time">${time}</span>\n          </div>`;
+      }).join('');
+      // scroll to bottom
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function updatePreview() {
+      const name = nameEl.value.trim() || '—';
+      const dob = dobEl.value ? new Date(dobEl.value).toLocaleDateString() : '—';
+      const gender = (form.querySelector('input[name="gender"]:checked') || {}).value || '—';
+      const draft = messageEl.value.trim();
+      previewName.textContent = `Nama: ${name}`;
+      previewMeta.textContent = `Tanggal Lahir: ${dob} • Jenis Kelamin: ${gender}`;
+      if (!chatDraft) return;
+      if (!draft) {
+        chatDraft.textContent = 'Belum ada pesan.';
+        chatDraft.setAttribute('aria-hidden', 'true');
+      } else {
+        chatDraft.innerHTML = `<div class="chat-bubble me"><div class="body">${escapeHtml(draft)}</div><span class="chat-time">${formatTimestamp(new Date())}</span></div>`;
+        chatDraft.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    // simple escaping to avoid HTML injection in preview (we set textContent elsewhere for form values)
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // initial preview
+    updatePreview();
+
+    [nameEl, dobEl, messageEl].forEach(el => el && el.addEventListener('input', updatePreview));
+    form.querySelectorAll('input[name="gender"]').forEach(r => r.addEventListener('change', updatePreview));
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!validate()) { showToast('Periksa kesalahan pada formulir.'); return; }
+      // Create message object with timestamp
+      const msgText = messageEl.value.trim();
+      const msgObj = { text: msgText, time: new Date().toISOString(), me: true };
+      messages.push(msgObj);
+      renderMessages();
+      showToast('Terima kasih — pesan Anda telah dikirim (demo).');
+      // clear message but keep name
+      messageEl.value = '';
+      updatePreview();
+      // focus submit for accessibility feedback
+      document.getElementById('contact-submit')?.focus();
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      form.reset();
+      // clear error visuals
+      form.querySelectorAll('.form-error').forEach(el => el.classList.remove('visible'));
+      [nameEl, dobEl, messageEl].forEach(el => el && el.removeAttribute('aria-invalid'));
+      updatePreview();
+    });
+  })();
 });

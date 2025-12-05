@@ -126,7 +126,7 @@
             <h3 class="mt-3 font-semibold text-slate-900 dark:text-slate-100">KBPII Papua — Company Profile</h3>
             <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Website company profile for Keluarga Besar Pelajar Islam Indonesia (KBPII) Papua, built with Laravel.</p>
             <div class="mt-3 flex items-center gap-2">
-              <a href="#" class="text-sm text-indigo-600">Demo</a>
+              <a href="https://kbpiipapua.com/" class="text-sm text-indigo-600" target="_blank" rel="noopener noreferrer">Demo</a>
               <a href="#" class="text-sm text-slate-500">•</a>
               <a href="#" class="text-sm text-slate-500">Code</a>
             </div>
@@ -154,7 +154,8 @@
             <h3 class="mt-3 font-semibold text-slate-900 dark:text-slate-100">Bahan Ajar UT — Learning Materials</h3>
             <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">An information system for managing and delivering learning materials for Universitas Terbuka, built with Vue.js.</p>
             <div class="mt-3 flex items-center gap-2">
-              <a href="#" class="text-sm text-indigo-600">Demo</a>
+              <a href="https://youtu.be/CqgdxDCylEA" class="text-sm text-indigo-600" target="_blank"
+                rel="noopener noreferrer">Demo</a>
               <a href="#" class="text-sm text-slate-500">•</a>
               <a href="#" class="text-sm text-slate-500">Code</a>
             </div>
@@ -163,23 +164,85 @@
       </section>
 
       <!-- Contact -->
-      <section id="contact" class="mt-12">
+      <section id="contact" class="mt-12" data-animate>
         <h2 class="text-2xl font-semibold">Contact</h2>
-        <p class="mt-2 text-slate-600 max-w-2xl">Punya ide atau kolaborasi? Kirim pesan singkat dan saya akan membalas secepatnya.</p>
-        <form data-animate class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl opacity-0 translate-y-4 transition-all duration-700 glass-card" onsubmit="event.preventDefault(); alert('Form submitted (demo).');">
-          <input required class="col-span-1 sm:col-span-2 p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700" placeholder="Nama" />
-          <input required class="p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700" placeholder="Email" type="email" />
-          <textarea required class="col-span-1 sm:col-span-2 p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700" rows="4" placeholder="Pesan"></textarea>
-          <div class="col-span-1 sm:col-span-2">
-            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Kirim Pesan</button>
-          </div>
-        </form>
+        <p class="mt-2 text-slate-600 max-w-2xl">Punya ide atau kolaborasi? Isi formulir di kiri, dan lihat pesan langsung di
+          kanan.</p>
+
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          <!-- Left: Form -->
+          <form id="contact-form" data-animate class="glass-card p-6 opacity-0 translate-y-4 transition-all duration-700"
+            novalidate>
+            <div class="space-y-4">
+              <label class="block">
+                <span class="text-sm font-medium">Nama</span>
+                <input id="contact-name" name="name" type="text" required
+                  class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+                  aria-required="true" />
+                <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-name">Nama wajib diisi.</span>
+              </label>
+
+              <label class="block">
+                <span class="text-sm font-medium">Tanggal Lahir</span>
+                <input id="contact-dob" name="dob" type="date" required
+                  class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+                  aria-required="true" />
+                <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-dob">Tanggal lahir tidak boleh kosong atau
+                  di masa depan.</span>
+              </label>
+
+              <fieldset class="block">
+                <legend class="text-sm font-medium">Jenis Kelamin</legend>
+                <div class="mt-2 flex gap-4 items-center">
+                  <label class="inline-flex items-center"><input type="radio" name="gender" value="Laki-laki" class="mr-2"
+                      checked> Laki-laki</label>
+                  <label class="inline-flex items-center"><input type="radio" name="gender" value="Perempuan" class="mr-2">
+                    Perempuan</label>
+                  <label class="inline-flex items-center"><input type="radio" name="gender" value="Lainnya" class="mr-2">
+                    Lainnya</label>
+                </div>
+                <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-gender">Pilih jenis kelamin.</span>
+              </fieldset>
+
+              <label class="block">
+                <span class="text-sm font-medium">Pesan</span>
+                <textarea id="contact-message" name="message" rows="6" required
+                  class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+                  aria-required="true" placeholder="Tulis pesan Anda di sini..."></textarea>
+                <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-message">Pesan wajib diisi (min 10
+                  karakter).</span>
+              </label>
+
+              <div class="flex items-center justify-between">
+                <button id="contact-submit" type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Kirim
+                  Pesan</button>
+                <button id="contact-reset" type="button" class="px-3 py-2 rounded-md border">Reset</button>
+              </div>
+            </div>
+          </form>
+<!-- Right: Live preview -->
+<div id="contact-preview" data-animate class="glass-card p-6 opacity-0 translate-y-4 transition-all duration-700">
+  <div class="flex items-start justify-between">
+    <div>
+      <h3 class="text-lg font-semibold" id="preview-name">Nama: —</h3>
+      <p class="text-sm text-slate-600 mt-1" id="preview-meta">Tanggal Lahir: — • Jenis Kelamin: —</p>
+    </div>
+    <div class="text-xs text-slate-400">Preview Chat</div>
+  </div>
+  <hr class="my-4 border-slate-200 dark:border-slate-700" />
+
+  <div id="contact-chat" class="chat-container">
+    <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+    <div id="chat-draft" class="chat-draft" aria-hidden="true">Belum ada pesan.</div>
+  </div>
+</div>
+</div>
       </section>
     </main>
 
     <footer class="border-t mt-16 py-6 bg-white dark:bg-transparent">
       <div class="max-w-5xl mx-auto px-6 text-sm text-slate-500 flex items-center justify-between glass-card">
-      <div>© <strong>Isnan Wahyudi</strong> — Built with Bootstrap</div>
+      <div>© <strong>Isnan Wahyudi</strong></div>
         <div class="flex items-center gap-3">
           <a href="#" class="hover:text-slate-700">Privacy</a>
           <a href="#" class="hover:text-slate-700">Terms</a>
