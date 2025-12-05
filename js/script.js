@@ -150,6 +150,128 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeModal();
   });
 
+  // Mobile menu toggle (hamburger) — slide-down full-screen drawer with backdrop
+  (function () {
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const siteNav = document.getElementById('site-nav');
+    if (!mobileBtn || !siteNav) return;
+
+    const icon = mobileBtn.querySelector('i');
+    let backdrop = null;
+
+    function createBackdrop() {
+      if (backdrop) return;
+      backdrop = document.createElement('div');
+      backdrop.id = 'mobile-nav-backdrop';
+      document.body.appendChild(backdrop);
+      // allow transition
+      requestAnimationFrame(() => backdrop.classList.add('show'));
+      backdrop.addEventListener('click', () => setOpen(false));
+    }
+
+    function removeBackdrop() {
+      if (!backdrop) return;
+      backdrop.classList.remove('show');
+      // wait for fade-out then remove
+      setTimeout(() => {
+        if (backdrop && backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
+        backdrop = null;
+      }, 260);
+    }
+
+    let navTimers = [];
+    let focusTrapHandler = null;
+
+    function setOpen(open) {
+      mobileBtn.setAttribute('aria-expanded', String(Boolean(open)));
+      if (open) {
+        siteNav.classList.add('nav-open');
+        siteNav.setAttribute('aria-hidden', 'false');
+        if (icon) icon.className = 'fa-solid fa-xmark';
+        createBackdrop();
+        // lock body scroll while drawer is open
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        // animate nav items with stagger
+        const links = Array.from(siteNav.querySelectorAll('a'));
+        links.forEach((a, idx) => {
+          // clear any previous
+          a.classList.remove('nav-item-in');
+          const t = setTimeout(() => a.classList.add('nav-item-in'), idx * 70 + 80);
+          navTimers.push(t);
+        });
+        // focus trap: keep tab inside drawer
+        const focusables = () => Array.from(siteNav.querySelectorAll('a,button,input,textarea,select')).filter(el => !el.hasAttribute('disabled'));
+        focusTrapHandler = function (e) {
+          if (e.key !== 'Tab') return;
+          const list = focusables();
+          if (list.length === 0) return;
+          const first = list[0];
+          const last = list[list.length - 1];
+          if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        };
+        document.addEventListener('keydown', focusTrapHandler);
+        // focus first link for accessibility
+        const first = siteNav.querySelector('a,button');
+        first && first.focus();
+      } else {
+        siteNav.classList.remove('nav-open');
+        siteNav.setAttribute('aria-hidden', 'true');
+        if (icon) icon.className = 'fa-solid fa-bars';
+        removeBackdrop();
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        // clear stagger timers and remove classes
+        navTimers.forEach(t => clearTimeout(t)); navTimers = [];
+        siteNav.querySelectorAll('a.nav-item-in').forEach(a => a.classList.remove('nav-item-in'));
+        if (focusTrapHandler) document.removeEventListener('keydown', focusTrapHandler);
+        focusTrapHandler = null;
+        mobileBtn.focus();
+      }
+    }
+
+    mobileBtn.addEventListener('click', (e) => {
+      const isOpen = mobileBtn.getAttribute('aria-expanded') === 'true';
+      setOpen(!isOpen);
+    });
+
+    // close on Escape (also ensures nav closes if open)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+
+    // Close drawer when a nav link is clicked (mobile)
+    siteNav.addEventListener('click', (e) => {
+      const a = e.target.closest('a');
+      if (!a) return;
+      // only handle mobile drawer clicks
+      if (window.innerWidth <= 768) {
+        setOpen(false);
+      }
+    });
+
+    // Drawer header quick actions
+    const drawerTheme = document.getElementById('drawer-theme-toggle');
+    const drawerContact = document.getElementById('drawer-contact');
+    const mainThemeBtn = document.getElementById('theme-toggle');
+    const contactSection = document.getElementById('contact');
+    if (drawerTheme && mainThemeBtn) {
+      drawerTheme.addEventListener('click', () => mainThemeBtn.click());
+    }
+    if (drawerContact && contactSection) {
+      drawerContact.addEventListener('click', () => {
+        setOpen(false);
+        setTimeout(() => {
+          const contactTop = contactSection.getBoundingClientRect().top + window.pageYOffset - (document.querySelector('header')?.offsetHeight || 0) - 8;
+          window.scrollTo({ top: contactTop, behavior: 'smooth' });
+          const contactName = document.getElementById('contact-name');
+          contactName && contactName.focus();
+        }, 260);
+      });
+    }
+  })();
+
   // Option to dismiss top greeting quickly
   dismissGreetingBtn?.addEventListener('click', () => {
     if (!topGreeting) return;
@@ -178,9 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  // Nav active management: user prefers manual `active` class only.
-  // Automatic scroll-based updates have been removed — keep nav activation manual.
-
   // Project lightbox/modal preview
   const lightbox = (function(){
     const lb = document.createElement('div');
@@ -188,15 +307,15 @@ document.addEventListener('DOMContentLoaded', () => {
     lb.innerHTML = `
       <div class="lb-backdrop" data-lb-backdrop></div>
       <div class="lb-panel" role="dialog" aria-modal="true" aria-labelledby="lb-title">
-        <button class="lb-close" aria-label="Close preview">×</button>
+        <button class="lb-close btn-secondary glass-action" aria-label="Close preview">×</button>
         <div class="lb-content">
           <div class="lb-image"><img src="" alt=""/></div>
           <div class="lb-meta">
             <h3 id="lb-title"></h3>
             <p id="lb-desc" class="text-sm text-slate-600 dark:text-slate-300"></p>
             <div class="lb-controls">
-              <a id="lb-demo" class="lb-btn" href="#" target="_blank" rel="noopener noreferrer">Demo</a>
-              <a id="lb-code" class="lb-btn" href="#" target="_blank" rel="noopener noreferrer">Code</a>
+              <a id="lb-demo" class="lb-btn btn-primary glass-action" href="#" target="_blank" rel="noopener noreferrer">Demo</a>
+              <a id="lb-code" class="lb-btn btn-secondary glass-action" href="#" target="_blank" rel="noopener noreferrer">Code</a>
             </div>
           </div>
         </div>

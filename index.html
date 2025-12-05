@@ -1,270 +1,342 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio Isnan Wahyudi</title>
-    <script>
-      window.tailwind = window.tailwind || {};
-      tailwind.config = tailwind.config || {};
-      tailwind.config.darkMode = 'class';
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="description" content="Portfolio Isnan Wahyudi - developer, designer, maker." />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/glass-buttons.css">
-  </head>
-  <body class="bg-slate-50 text-slate-800 antialiased dark:bg-slate-900 dark:text-slate-100">
-    <header class="bg-white/60 dark:bg-slate-800/60 backdrop-blur sticky top-0 z-30 shadow-sm">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Isnan Wahyudi</title>
+  <script>
+    window.tailwind = window.tailwind || {};
+    tailwind.config = tailwind.config || {};
+    tailwind.config.darkMode = 'class';
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Portfolio Isnan Wahyudi - developer, designer, maker." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/glass-buttons.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased dark:bg-slate-900 dark:text-slate-100">
+  <header class="bg-white/60 dark:bg-slate-800/60 backdrop-blur sticky top-0 z-30 shadow-sm">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" class="flex items-center gap-3" aria-label="Homepage">
-          <span class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold shadow-sm ring-1 ring-white/20 dark:ring-black/20 nav-logo" role="img" aria-label="Initials IW">IW</span>
-          <span class="text-lg font-semibold text-slate-900 dark:text-slate-100">Isnan Wahyudi</span>
+      <a href="#" class="flex items-center gap-3" aria-label="Homepage">
+        <span
+          class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold shadow-sm ring-1 ring-white/20 dark:ring-black/20 nav-logo"
+          role="img" aria-label="Initials IW">IW</span>
+        <span class="text-lg font-semibold text-slate-900 dark:text-slate-100">Isnan Wahyudi</span>
         </a>
-        <nav class="hidden md:flex gap-4 items-center">
-          <a href="#home" class="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Home</a>
-          <a href="#about" class="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Our Profile</a>
-          <a href="#projects" class="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Portfolio</a>
-          <a href="#contact" class="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Message Us</a>
+      <nav id="site-nav" class="hidden md:flex gap-4 items-center" aria-hidden="true">
+        <!-- Mobile drawer header (only visible on small screens) -->
+        <div class="drawer-header w-full flex items-center justify-between md:hidden">
+          <div class="flex items-center gap-3">
+            <a href="#home" class="flex items-center gap-3" aria-label="Homepage">
+              <span
+                class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold shadow-sm nav-logo">IW</span>
+              <span class="text-lg font-semibold text-slate-900 dark:text-slate-100">Isnan</span>
+            </a>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="drawer-theme-toggle"
+              class="btn-secondary glass-action p-2 rounded-md text-slate-700 dark:text-slate-200"
+              aria-label="Toggle theme in drawer">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+            <button id="drawer-contact" class="btn-secondary glass-action p-2 rounded-md text-slate-700 dark:text-slate-200"
+              aria-label="Contact">
+              <i class="fa-solid fa-envelope"></i>
+            </button>
+          </div>
+        </div>
+      
+        <a href="#home" class="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Home</a>
+        <a href="#about" class="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Our
+          Profile</a>
+        <a href="#projects" class="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Portfolio</a>
+        <a href="#contact" class="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Message
+          Us</a>
         </nav>
         <div class="flex items-center gap-3">
-          <button id="theme-toggle" class="p-2 rounded-md text-slate-700 bg-white/0 hover:bg-slate-100 dark:bg-transparent dark:text-slate-200 flex items-center justify-center theme-toggle" aria-label="Toggle theme" aria-pressed="false">
-            <!-- Moon icon (visible in light mode) -->
-            <svg class="icon-moon w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-            </svg>
-            <!-- Sun icon (visible in dark mode) -->
-            <svg class="icon-sun w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36 6.36l-1.42-1.42M7.05 6.64L5.64 5.22m12.02 0l-1.41 1.41M7.05 17.36l-1.41 1.41M12 7a5 5 0 100 10 5 5 0 000-10z"/>
-            </svg>
+        <button id="theme-toggle"
+          class="btn-secondary glass-action theme-toggle flex items-center justify-center md:p-2 rounded-md text-slate-700 dark:text-slate-200"
+          aria-label="Toggle theme" aria-pressed="false">
+          <!-- Moon icon (visible in light mode) -->
+          <svg class="icon-moon w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+            aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+          <!-- Sun icon (visible in dark mode) -->
+          <svg class="icon-sun w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36 6.36l-1.42-1.42M7.05 6.64L5.64 5.22m12.02 0l-1.41 1.41M7.05 17.36l-1.41 1.41M12 7a5 5 0 100 10 5 5 0 000-10z" />
+          </svg>
           </button>
           <span id="theme-status" class="sr-only" aria-live="polite"></span>
-          <button class="md:hidden p-2 rounded-md text-slate-700 dark:text-slate-200" aria-label="Open menu">☰</button>
+        <button id="mobile-menu-btn"
+          class="md:hidden btn-secondary glass-action p-2 rounded-md text-slate-700 dark:text-slate-200" aria-label="Open menu"
+          aria-controls="site-nav" aria-expanded="false">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
         </div>
-      </div>
-    </header>
+        </div>
+        </header>
 
-    <main class="max-w-5xl mx-auto px-6 py-12">
-      <!-- Hero -->
-      <section id="home" class="grid md:grid-cols-2 gap-8 items-center">
-        <div data-animate class="opacity-0 translate-y-4 transition-all duration-700 p-6 md:p-8 glass-panel">
-          <div id="visitor-greeting" class="mt-3 text-lg text-slate-700 dark:text-slate-300" aria-live="polite" hidden>
-            Hi<span id="greeting-name-hero" class="inline-block px-2 py-1 rounded-md hero-name-bg font-semibold"></span>! Welcome To Website.
-            <span id="greeting-hero-cursor" class="greeting-cursor" aria-hidden="true"></span>
+  <main class="max-w-5xl mx-auto px-6 py-12">
+    <!-- Hero -->
+    <section id="home" class="grid md:grid-cols-2 gap-8 items-center">
+      <div data-animate class="opacity-0 translate-y-4 transition-all duration-700 p-6 md:p-8 glass-panel">
+        <div id="visitor-greeting" class="mt-3 text-lg text-slate-700 dark:text-slate-300" aria-live="polite" hidden>
+          Hi<span id="greeting-name-hero" class="inline-block px-2 py-1 rounded-md hero-name-bg font-semibold"></span>!
+          Welcome To Website.
+          <span id="greeting-hero-cursor" class="greeting-cursor" aria-hidden="true"></span>
           </div>
           <p class="text-sm text-indigo-600 font-medium">Hello, I'm</p>
-          <h1 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">Isnan Wahyudi</h1>
-          <p class="mt-4 text-slate-700 dark:text-slate-300 max-w-xl">Developer &amp; Designer focused on building beautiful and accessible web experiences. I craft modern frontends and clean code.</p>
-          <div class="mt-6 flex flex-wrap gap-3 items-center btn-group">
-            <a href="#projects" class="btn-primary glass-action" aria-label="See Projects">
-              <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
-              <span>See Projects</span>
-            </a>
-            <a href="#contact" class="btn-secondary glass-action" aria-label="Contact Me">
-              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-              <span>Contact Me</span>
-            </a>
-          </div>
-          <div class="mt-6 flex items-center gap-3">
-            <a href="https://github.com/isnanw" class="social-btn github glass-social" data-network="GitHub" target="_blank" rel="noopener noreferrer" aria-label="GitHub — isnanw" title="GitHub: isnanw">
-              <i class="fa-brands fa-github" aria-hidden="true"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/isnanw/" class="social-btn linkedin glass-social" data-network="LinkedIn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn — isnanw" title="LinkedIn: isnanw">
-              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-            </a>
-            <a href="https://www.instagram.com/_isnanw" class="social-btn instagram glass-social" data-network="Instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram — _isnanw" title="Instagram: _isnanw">
-              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
-            </a>
-            <a href="https://www.youtube.com/@isNaNw" class="social-btn youtube glass-social" data-network="YouTube" target="_blank" rel="noopener noreferrer" aria-label="YouTube — isNaNw" title="YouTube: isNaNw">
-              <i class="fa-brands fa-youtube" aria-hidden="true"></i>
-            </a>
-          </div>
+        <h1 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">Isnan Wahyudi
+        </h1>
+        <p class="mt-4 text-slate-700 dark:text-slate-300 max-w-xl">Developer &amp; Designer focused on building
+          beautiful and accessible web experiences. I craft modern frontends and clean code.</p>
+        <div class="mt-6 flex flex-wrap gap-3 items-center btn-group">
+          <a href="#projects" class="btn-primary glass-action" aria-label="See Projects">
+            <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
+            <span>See Projects</span>
+          </a>
+          <a href="#contact" class="btn-secondary glass-action" aria-label="Contact Me">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            <span>Contact Me</span>
+          </a>
         </div>
-        <div class="order-first md:order-last flex justify-center items-center" data-animate>
-          <div class="relative flex items-center justify-center">
-            <div class="profile-ornament absolute rounded-full pointer-events-none"></div>
-            <img src="images/profile.jpg" alt="Photo profile Isnan Wahyudi" class="profile-photo relative w-56 h-56 md:w-72 md:h-72 rounded-full object-cover border-4 border-white dark:border-slate-900 shadow-2xl" />
+        <div class="mt-6 flex items-center gap-3">
+          <a href="https://github.com/isnanw" class="social-btn github glass-social" data-network="GitHub" target="_blank"
+            rel="noopener noreferrer" aria-label="GitHub — isnanw" title="GitHub: isnanw">
+            <i class="fa-brands fa-github" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/isnanw/" class="social-btn linkedin glass-social" data-network="LinkedIn"
+            target="_blank" rel="noopener noreferrer" aria-label="LinkedIn — isnanw" title="LinkedIn: isnanw">
+            <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.instagram.com/_isnanw" class="social-btn instagram glass-social" data-network="Instagram"
+            target="_blank" rel="noopener noreferrer" aria-label="Instagram — _isnanw" title="Instagram: _isnanw">
+            <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.youtube.com/@isNaNw" class="social-btn youtube glass-social" data-network="YouTube" target="_blank"
+            rel="noopener noreferrer" aria-label="YouTube — isNaNw" title="YouTube: isNaNw">
+            <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+          </a>
           </div>
-        </div>
-      </section>
+          </div>
+          <div class="order-first md:order-last flex justify-center items-center" data-animate>
+            <div class="relative flex items-center justify-center">
+              <div class="profile-ornament absolute rounded-full pointer-events-none"></div>
+          <img src="images/profile.jpg" alt="Photo profile Isnan Wahyudi"
+            class="profile-photo relative w-56 h-56 md:w-72 md:h-72 rounded-full object-cover border-4 border-white dark:border-slate-900 shadow-2xl" />
+          </div>
+          </div>
+          </section>
 
-      <!-- About -->
-      <section id="about" class="mt-16" data-animate>
-        <h2 class="text-2xl font-semibold">About Me</h2>
-        <div class="mt-4 text-slate-600 max-w-3xl">
-          <p>I am a web developer who enjoys both front-end and back-end work. I focus on building responsive, fast, and accessible user interfaces — and I also work as a backend developer using PHP, especially with the Laravel and CodeIgniter frameworks.</p>
+    <!-- About -->
+    <section id="about" class="mt-16" data-animate>
+      <h2 class="text-2xl font-semibold">About Me</h2>
+      <div class="mt-4 text-slate-600 max-w-3xl">
+        <p>I am a web developer who enjoys both front-end and back-end work. I focus on building responsive, fast, and
+          accessible user interfaces — and I also work as a backend developer using PHP, especially with the Laravel and
+          CodeIgniter frameworks.</p>
 
-          <!-- Skills as logo badges only -->
-          <div class="mt-4 flex flex-wrap items-center gap-3 skill-list" aria-hidden="false">
-            <span class="skill-badge skill-js" title="JavaScript" aria-label="JavaScript"><i class="fa-brands fa-js" aria-hidden="true"></i><span class="sr-only">JavaScript</span></span>
-            <span class="skill-badge skill-react" title="React" aria-label="React"><i class="fa-brands fa-react" aria-hidden="true"></i><span class="sr-only">React</span></span>
-            <span class="skill-badge skill-vue" title="Vue.js" aria-label="Vue.js"><i class="fa-brands fa-vuejs" aria-hidden="true"></i><span class="sr-only">Vue.js</span></span>
-            <span class="skill-badge skill-bootstrap" title="Bootstrap" aria-label="Bootstrap"><i class="fa-brands fa-bootstrap" aria-hidden="true"></i><span class="sr-only">Bootstrap</span></span>
-            <span class="skill-badge skill-php" title="PHP" aria-label="PHP"><i class="fa-brands fa-php" aria-hidden="true"></i><span class="sr-only">PHP</span></span>
-            <span class="skill-badge skill-laravel" title="Laravel" aria-label="Laravel"><i class="fa-brands fa-laravel" aria-hidden="true"></i><span class="sr-only">Laravel</span></span>
-            <span class="skill-badge skill-ci" title="CodeIgniter" aria-label="CodeIgniter"><i class="fa-solid fa-code" aria-hidden="true"></i><span class="sr-only">CodeIgniter</span></span><span class="skill-badge skill-python" title="Python" aria-label="Python"><i class="fa-brands fa-python"
-                aria-hidden="true"></i><span class="sr-only">Python</span></span>
-            <span class="skill-badge skill-pg" title="PostgreSQL" aria-label="PostgreSQL"><i class="fa-solid fa-database" aria-hidden="true"></i><span class="sr-only">PostgreSQL</span></span>
-            <span class="skill-badge skill-mysql" title="MySQL" aria-label="MySQL"><i class="fa-solid fa-server" aria-hidden="true"></i><span class="sr-only">MySQL</span></span>
+        <!-- Skills as logo badges only -->
+        <div class="mt-4 flex flex-wrap items-center gap-3 skill-list" aria-hidden="false">
+          <span class="skill-badge skill-js" title="JavaScript" aria-label="JavaScript"><i class="fa-brands fa-js"
+              aria-hidden="true"></i><span class="sr-only">JavaScript</span></span>
+          <span class="skill-badge skill-react" title="React" aria-label="React"><i class="fa-brands fa-react"
+              aria-hidden="true"></i><span class="sr-only">React</span></span>
+          <span class="skill-badge skill-vue" title="Vue.js" aria-label="Vue.js"><i class="fa-brands fa-vuejs"
+              aria-hidden="true"></i><span class="sr-only">Vue.js</span></span>
+          <span class="skill-badge skill-bootstrap" title="Bootstrap" aria-label="Bootstrap"><i class="fa-brands fa-bootstrap"
+              aria-hidden="true"></i><span class="sr-only">Bootstrap</span></span>
+          <span class="skill-badge skill-php" title="PHP" aria-label="PHP"><i class="fa-brands fa-php"
+              aria-hidden="true"></i><span class="sr-only">PHP</span></span>
+          <span class="skill-badge skill-laravel" title="Laravel" aria-label="Laravel"><i class="fa-brands fa-laravel"
+              aria-hidden="true"></i><span class="sr-only">Laravel</span></span>
+          <span class="skill-badge skill-ci" title="CodeIgniter" aria-label="CodeIgniter"><i class="fa-solid fa-code"
+              aria-hidden="true"></i><span class="sr-only">CodeIgniter</span></span><span class="skill-badge skill-python"
+            title="Python" aria-label="Python"><i class="fa-brands fa-python" aria-hidden="true"></i><span
+              class="sr-only">Python</span></span>
+          <span class="skill-badge skill-pg" title="PostgreSQL" aria-label="PostgreSQL"><i class="fa-solid fa-database"
+              aria-hidden="true"></i><span class="sr-only">PostgreSQL</span></span>
+          <span class="skill-badge skill-mysql" title="MySQL" aria-label="MySQL"><i class="fa-solid fa-server"
+              aria-hidden="true"></i><span class="sr-only">MySQL</span></span>
           </div>
-        </div>
-      </section>
+          </div>
+          </section>
 
-      <!-- Projects -->
-      <section id="projects" class="mt-12">
-        <div class="flex items-center justify-between">
-          <h2 class="text-2xl font-semibold">Projects</h2>
-          <a href="#" class="text-sm text-indigo-600">View all</a>
-        </div>
-        <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Card 1: KBPII Papua (Laravel) -->
-          <article data-animate class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-4 opacity-0 translate-y-4 transition-all duration-500 hover:scale-[1.02] card-fallback glass-card">
-            <div class="h-36 bg-slate-100 dark:bg-slate-700 rounded-md overflow-hidden">
-              <img src="images/project_laravel.png" alt="KBPII Papua - company profile" class="w-full h-full object-cover" loading="lazy" decoding="async" width="1200" height="600" />
+    <!-- Projects -->
+    <section id="projects" class="mt-12">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold">Projects</h2>
+        <a href="#" class="text-sm text-indigo-600">View all</a>
+      </div>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card 1: KBPII Papua (Laravel) -->
+        <article data-animate
+          class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-4 opacity-0 translate-y-4 transition-all duration-500 hover:scale-[1.02] card-fallback glass-card">
+          <div class="h-36 bg-slate-100 dark:bg-slate-700 rounded-md overflow-hidden">
+            <img src="images/project_laravel.png" alt="KBPII Papua - company profile" class="w-full h-full object-cover"
+              loading="lazy" decoding="async" width="1200" height="600" />
             </div>
             <h3 class="mt-3 font-semibold text-slate-900 dark:text-slate-100">KBPII Papua — Company Profile</h3>
-            <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Website company profile for Keluarga Besar Pelajar Islam Indonesia (KBPII) Papua, built with Laravel.</p>
-            <div class="mt-3 flex items-center gap-2">
-              <a href="https://kbpiipapua.com/" class="text-sm text-indigo-600" target="_blank" rel="noopener noreferrer">Demo</a>
-              <a href="#" class="text-sm text-slate-500">•</a>
-              <a href="#" class="text-sm text-slate-500">Code</a>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Website company profile for Keluarga Besar Pelajar
+            Islam Indonesia (KBPII) Papua, built with Laravel.</p>
+          <div class="mt-3 flex items-center gap-2">
+            <a href="https://kbpiipapua.com/" class="text-sm text-indigo-600" target="_blank" rel="noopener noreferrer">Demo</a>
+            <a href="#" class="text-sm text-slate-500">•</a>
+            <a href="#" class="text-sm text-slate-500">Code</a>
             </div>
-          </article>
+            </article>
 
-          <!-- Card 2: RecehKu (React) -->
-          <article data-animate class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-4 opacity-0 translate-y-4 transition-all duration-600 hover:scale-[1.02] card-fallback glass-card">
-            <div class="h-36 bg-slate-100 dark:bg-slate-700 rounded-md overflow-hidden">
-              <img src="images/project_react.png" alt="RecehKu - financial app" class="w-full h-full object-cover" loading="lazy" decoding="async" width="1200" height="600" />
+        <!-- Card 2: RecehKu (React) -->
+        <article data-animate
+          class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-4 opacity-0 translate-y-4 transition-all duration-600 hover:scale-[1.02] card-fallback glass-card">
+          <div class="h-36 bg-slate-100 dark:bg-slate-700 rounded-md overflow-hidden">
+            <img src="images/project_react.png" alt="RecehKu - financial app" class="w-full h-full object-cover" loading="lazy"
+              decoding="async" width="1200" height="600" />
             </div>
             <h3 class="mt-3 font-semibold text-slate-900 dark:text-slate-100">RecehKu — Smart Finance</h3>
-            <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">A smart personal finance recording system (RecehKu) developed with React to help track transactions and budgets.</p>
-            <div class="mt-3 flex items-center gap-2">
-              <a href="#" class="text-sm text-indigo-600">Demo</a>
-              <a href="#" class="text-sm text-slate-500">•</a>
-              <a href="#" class="text-sm text-slate-500">Code</a>
-            </div>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">A smart personal finance recording system (RecehKu)
+            developed with React to help track transactions and budgets.</p>
+          <div class="mt-3 flex items-center gap-2">
+            <a href="#" class="text-sm text-indigo-600">Demo</a>
+            <a href="#" class="text-sm text-slate-500">•</a>
+            <a href="#" class="text-sm text-slate-500">Code</a>
+          </div>
           </article>
 
-          <!-- Card 3: Bahan Ajar UT (Vue.js) -->
-          <article data-animate class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-4 opacity-0 translate-y-4 transition-all duration-700 hover:scale-[1.02] card-fallback glass-card">
-            <div class="h-36 bg-slate-100 dark:bg-slate-700 rounded-md overflow-hidden">
-              <img src="images/project_vuejs.png" alt="Bahan Ajar UT - learning materials" class="w-full h-full object-cover" loading="lazy" decoding="async" width="1200" height="600" />
+        <!-- Card 3: Bahan Ajar UT (Vue.js) -->
+        <article data-animate
+          class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-4 opacity-0 translate-y-4 transition-all duration-700 hover:scale-[1.02] card-fallback glass-card">
+          <div class="h-36 bg-slate-100 dark:bg-slate-700 rounded-md overflow-hidden">
+            <img src="images/project_vuejs.png" alt="Bahan Ajar UT - learning materials" class="w-full h-full object-cover"
+              loading="lazy" decoding="async" width="1200" height="600" />
             </div>
             <h3 class="mt-3 font-semibold text-slate-900 dark:text-slate-100">Bahan Ajar UT — Learning Materials</h3>
-            <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">An information system for managing and delivering learning materials for Universitas Terbuka, built with Vue.js.</p>
-            <div class="mt-3 flex items-center gap-2">
-              <a href="https://youtu.be/CqgdxDCylEA" class="text-sm text-indigo-600" target="_blank"
-                rel="noopener noreferrer">Demo</a>
-              <a href="#" class="text-sm text-slate-500">•</a>
-              <a href="#" class="text-sm text-slate-500">Code</a>
-            </div>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">An information system for managing and delivering
+            learning materials for Universitas Terbuka, built with Vue.js.</p>
+          <div class="mt-3 flex items-center gap-2">
+            <a href="https://youtu.be/CqgdxDCylEA" class="text-sm text-indigo-600" target="_blank"
+              rel="noopener noreferrer">Demo</a>
+            <a href="#" class="text-sm text-slate-500">•</a>
+            <a href="#" class="text-sm text-slate-500">Code</a>
+          </div>
           </article>
-        </div>
-      </section>
+          </div>
+          </section>
 
-      <!-- Contact -->
-      <section id="contact" class="mt-12" data-animate>
-        <h2 class="text-2xl font-semibold">Contact</h2>
-        <p class="mt-2 text-slate-600 max-w-2xl">Punya ide atau kolaborasi? Isi formulir di kiri, dan lihat pesan langsung di
-          kanan.</p>
+    <!-- Contact -->
+    <section id="contact" class="mt-12" data-animate>
+      <h2 class="text-2xl font-semibold">Contact</h2>
+      <p class="mt-2 text-slate-600 max-w-2xl">Punya ide atau kolaborasi? Isi formulir di kiri, dan lihat pesan langsung
+        di
+        kanan.</p>
 
-        <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-          <!-- Left: Form -->
-          <form id="contact-form" data-animate class="glass-card p-6 opacity-0 translate-y-4 transition-all duration-700"
-            novalidate>
-            <div class="space-y-4">
-              <label class="block">
-                <span class="text-sm font-medium">Nama</span>
-                <input id="contact-name" name="name" type="text" required
-                  class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
-                  aria-required="true" />
-                <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-name">Nama wajib diisi.</span>
+      <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        <!-- Left: Form -->
+        <form id="contact-form" data-animate class="glass-card p-6 opacity-0 translate-y-4 transition-all duration-700"
+          novalidate>
+          <div class="space-y-4">
+            <label class="block">
+              <span class="text-sm font-medium">Nama</span>
+              <input id="contact-name" name="name" type="text" required
+                class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+                aria-required="true" />
+              <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-name">Nama wajib diisi.</span>
+            </label>
+
+            <label class="block">
+              <span class="text-sm font-medium">Tanggal Lahir</span>
+              <input id="contact-dob" name="dob" type="date" required
+                class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+                aria-required="true" />
+              <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-dob">Tanggal lahir tidak boleh kosong
+                atau
+                di masa depan.</span>
               </label>
 
-              <label class="block">
-                <span class="text-sm font-medium">Tanggal Lahir</span>
-                <input id="contact-dob" name="dob" type="date" required
-                  class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
-                  aria-required="true" />
-                <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-dob">Tanggal lahir tidak boleh kosong atau
-                  di masa depan.</span>
-              </label>
-
-              <fieldset class="block">
-                <legend class="text-sm font-medium">Jenis Kelamin</legend>
-                <div class="mt-2 flex gap-4 items-center">
-                  <label class="inline-flex items-center"><input type="radio" name="gender" value="Laki-laki" class="mr-2"
-                      checked> Laki-laki</label>
-                  <label class="inline-flex items-center"><input type="radio" name="gender" value="Perempuan" class="mr-2">
-                    Perempuan</label>
-                  <label class="inline-flex items-center"><input type="radio" name="gender" value="Lainnya" class="mr-2">
-                    Lainnya</label>
+            <fieldset class="block">
+              <legend class="text-sm font-medium">Jenis Kelamin</legend>
+              <div class="mt-2 flex gap-4 items-center">
+                <label class="inline-flex items-center"><input type="radio" name="gender" value="Laki-laki" class="mr-2" checked>
+                  Laki-laki</label>
+                <label class="inline-flex items-center"><input type="radio" name="gender" value="Perempuan" class="mr-2">
+                  Perempuan</label>
+                <label class="inline-flex items-center"><input type="radio" name="gender" value="Lainnya" class="mr-2">
+                  Lainnya</label>
                 </div>
                 <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-gender">Pilih jenis kelamin.</span>
-              </fieldset>
+                </fieldset>
 
-              <label class="block">
-                <span class="text-sm font-medium">Pesan</span>
-                <textarea id="contact-message" name="message" rows="6" required
-                  class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
-                  aria-required="true" placeholder="Tulis pesan Anda di sini..."></textarea>
-                <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-message">Pesan wajib diisi (min 10
-                  karakter).</span>
-              </label>
+            <label class="block">
+              <span class="text-sm font-medium">Pesan</span>
+              <textarea id="contact-message" name="message" rows="6" required
+                class="mt-1 block w-full p-3 rounded-md border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+                aria-required="true" placeholder="Tulis pesan Anda di sini..."></textarea>
+              <span class="form-error text-xs text-rose-500 mt-1 hidden" id="error-message">Pesan wajib diisi (min 10
+                karakter).</span>
+            </label>
 
-              <div class="flex items-center justify-between">
-                <button id="contact-submit" type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Kirim
-                  Pesan</button>
-                <button id="contact-reset" type="button" class="px-3 py-2 rounded-md border">Reset</button>
+            <div class="flex items-center justify-between">
+              <button id="contact-submit" type="submit" class="btn-primary glass-action">Kirim Pesan</button>
+              <button id="contact-reset" type="button" class="btn-secondary glass-action">Reset</button>
               </div>
+              </div>
+              </form>
+              <!-- Right: Live preview -->
+        <div id="contact-preview" data-animate class="glass-card p-6 opacity-0 translate-y-4 transition-all duration-700">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-lg font-semibold" id="preview-name">Nama: —</h3>
+              <p class="text-sm text-slate-600 mt-1" id="preview-meta">Tanggal Lahir: — • Jenis Kelamin: —</p>
             </div>
-          </form>
-<!-- Right: Live preview -->
-<div id="contact-preview" data-animate class="glass-card p-6 opacity-0 translate-y-4 transition-all duration-700">
-  <div class="flex items-start justify-between">
-    <div>
-      <h3 class="text-lg font-semibold" id="preview-name">Nama: —</h3>
-      <p class="text-sm text-slate-600 mt-1" id="preview-meta">Tanggal Lahir: — • Jenis Kelamin: —</p>
-    </div>
-    <div class="text-xs text-slate-400">Preview Chat</div>
-  </div>
-  <hr class="my-4 border-slate-200 dark:border-slate-700" />
-
-  <div id="contact-chat" class="chat-container">
-    <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
-    <div id="chat-draft" class="chat-draft" aria-hidden="true">Belum ada pesan.</div>
-  </div>
-</div>
-</div>
-      </section>
-    </main>
-
-    <footer class="border-t mt-16 py-6 bg-white dark:bg-transparent">
-      <div class="max-w-5xl mx-auto px-6 text-sm text-slate-500 flex items-center justify-between glass-card">
-      <div>© <strong>Isnan Wahyudi</strong></div>
-        <div class="flex items-center gap-3">
-          <a href="#" class="hover:text-slate-700">Privacy</a>
-          <a href="#" class="hover:text-slate-700">Terms</a>
-        </div>
-      </div>
-    </footer>
-    <!-- Visitor name modal -->
-    <div id="visitor-modal" class="fixed inset-0 z-50 hidden items-center justify-center" aria-hidden="true">
-      <div class="absolute inset-0 bg-black/40" data-modal-backdrop></div>
-      <div class="relative bg-white dark:bg-slate-800 rounded-lg shadow-lg max-w-md w-full mx-4 p-6" role="dialog" aria-modal="true" aria-labelledby="visitor-modal-title">
-        <h3 id="visitor-modal-title" class="text-lg font-semibold text-slate-900 dark:text-white">Hai! Siapa nama kamu?</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Masukkan nama supaya saya bisa menyapamu dengan lebih personal.</p>
-        <form id="visitor-form" class="mt-4 grid gap-3">
-          <input id="visitor-name" type="text" required placeholder="Nama kamu" class="p-3 rounded-md border border-slate-200 dark:bg-slate-900 dark:border-slate-700" />
-          <div class="flex items-center justify-end gap-2">
-            <button type="button" id="visitor-cancel" class="px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100 dark:text-slate-300">Batal</button>
-            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Simpan</button>
+            <div class="text-xs text-slate-400">Preview Chat</div>
           </div>
-        </form>
+          <hr class="my-4 border-slate-200 dark:border-slate-700" />
+
+          <div id="contact-chat" class="chat-container">
+            <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+            <div id="chat-draft" class="chat-draft" aria-hidden="true">Belum ada pesan.</div>
+          </div>
+          </div>
+          </div>
+          </section>
+          </main>
+
+  <footer class="border-t mt-16 py-6 bg-white dark:bg-transparent">
+    <div class="max-w-5xl mx-auto px-6 text-sm text-slate-500 flex items-center justify-between glass-card">
+      <div>© <strong>Isnan Wahyudi</strong></div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="hover:text-slate-700">Privacy</a>
+        <a href="#" class="hover:text-slate-700">Terms</a>
       </div>
-    </div>
-    <script src="js/theme.js" defer></script>
-    <script src="js/script.js" defer></script>
-  </body>
+      </div>
+      </footer>
+      <!-- Visitor name modal -->
+      <div id="visitor-modal" class="fixed inset-0 z-50 hidden items-center justify-center" aria-hidden="true">
+        <div class="absolute inset-0 bg-black/40" data-modal-backdrop></div>
+    <div class="relative bg-white dark:bg-slate-800 rounded-lg shadow-lg max-w-md w-full mx-4 p-6" role="dialog"
+      aria-modal="true" aria-labelledby="visitor-modal-title">
+      <h3 id="visitor-modal-title" class="text-lg font-semibold text-slate-900 dark:text-white">Hai! Siapa nama kamu?
+      </h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Masukkan nama supaya saya bisa menyapamu dengan lebih
+        personal.</p>
+      <form id="visitor-form" class="mt-4 grid gap-3">
+        <input id="visitor-name" type="text" required placeholder="Nama kamu"
+          class="p-3 rounded-md border border-slate-200 dark:bg-slate-900 dark:border-slate-700" />
+        <div class="flex items-center justify-end gap-2">
+          <button type="button" id="visitor-cancel" class="btn-secondary glass-action">Batal</button>
+          <button type="submit" class="btn-primary glass-action">Simpan</button>
+          </div>
+          </form>
+          </div>
+          </div>
+          <script src="js/theme.js" defer></script>
+          <script src="js/script.js" defer></script>
+          </body>
+
 </html>
